@@ -1,5 +1,6 @@
 {
   "appName": "loggingApp",
+  "logType" : "console",
   "users": {
     "basePath": "https://jsonplaceholder.typicode.com",
     "timeout": 10000

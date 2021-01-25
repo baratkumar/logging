@@ -5,6 +5,7 @@ class ServiceDispatcher {
   async dispatch(requestHelper, service, serviceType, h) {
     let errResponse
     let reply = h
+    let addLogs = new LogsHandler(requestHelper, serviceType)
     try {
       let serviceResponse = await service.dispatch(requestHelper)
       reply = reply
@@ -12,10 +13,10 @@ class ServiceDispatcher {
         .type('application/json')
         .code(httpStatus.OK)
       reply.header('correlation-id', requestHelper.correlationId)
+      addLogs.generateInfoLog()
       return reply
     } catch(error) {
-      let customError = new LogsHandler(error)
-      errResponse = customError.generateErrObject(requestHelper, serviceType)
+      errResponse = addLogs.generateErrorLog(error)
     }
     return errResponse 
   }
